@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>click</title>
+	<script src="js/jquery-2.1.0.js"></script>
+	<style>
+	#box{
+		width: 300px;
+		height: 300px;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin-top: -150px;
+		margin-left: -150px;
+		background-color: #329f57;
+		cursor: pointer;
+	}
+	#box:hover{
+		background-color: #329f09;
+	}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<canvas id = "wave" width = 300 height = 300></canvas>
+	</div>
+	<script>
+	window.onload = function () {
+		
+		var interval,incre,minRadius,radius,alpha;
+		interval = 20;
+		incre = 5;
+		minRadius = 20;
+		function drawCir (pointX,pointY,radius,alpha) {
+			var canvas = document.getElementById('wave');
+			var context = canvas.getContext("2d");
+			context.clearRect(0,0,300,300);
+			context.beginPath();
+			context.arc(pointX,pointY,radius,0,2*Math.PI,true);
+			context.globalAlpha = alpha;
+			context.fillsyle = "#FFF";
+			context.fill();
+		}
+		var box = $('#box');
+		box.click(function () {
+			var width = $(this).css("width");
+			var height = $(this).css("height");		
+			var maxRadius = width>height?width:height;
+			var pointX = event.offsetX;
+			var pointY = event.offsetY;
+			radius = minRadius;
+			alpha = 0.3;
+			drawWave = function () {
+				drawCir(pointX,pointY,radius,alpha);
+				radius+=20;	
+				interval+=incre;
+				if(alpha-0.015>=0){alpha-=0.015;}
+				if (radius>maxRadius) {
+					clearInterval(inter);
+				};
+			};
+			var inter  = setInterval("drawWave()",interval);
+		});
+	};	
+		
+
+	</script>
+</body>
+</html>
